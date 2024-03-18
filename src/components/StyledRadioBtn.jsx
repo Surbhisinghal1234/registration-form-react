@@ -1,29 +1,47 @@
-import * as React from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+import {
+  FormControl,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+} from "@mui/material";
+import { useController } from "react-hook-form";
 
-export default function ControlledRadioButtonsGroup() {
-  const [value, setValue] = React.useState("female");
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+const ControlledRadioButtonsGroup = ({
+  label,
+  name,
+  defaultValue,
+  control,
+}) => {
+  const {
+    field: { onChange, value },
+  } = useController({
+    name,
+    control,
+    defaultValue,
+  });
 
   return (
     <FormControl>
-      <FormLabel id="demo-controlled-radio-buttons-group">Gender</FormLabel>
+      <FormLabel id={`radio-group-${name}`}>{label}</FormLabel>
       <RadioGroup
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
+        aria-labelledby={`radio-group-${name}`}
+        name={name}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
       >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
+        {data?.map((item) => {
+          return (
+            <FormControlLabel
+              value={item?.value}
+              control={<Radio />}
+              label={item?.name}
+            />
+          );
+        })}
       </RadioGroup>
     </FormControl>
   );
-}
+};
+
+export default ControlledRadioButtonsGroup;

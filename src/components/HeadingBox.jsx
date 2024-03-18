@@ -10,7 +10,7 @@ const HeadingBox = ({ heading }) => {
         padding: "0.75rem 1.25rem ",
       }}
     >
-      <Typography variant="h3">{heading}</Typography>
+      <Typography variant="h5">{heading}</Typography>
     </Box>
   );
 };

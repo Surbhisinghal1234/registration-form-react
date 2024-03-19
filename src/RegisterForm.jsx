@@ -51,7 +51,8 @@ const RegisterForm = () => {
     }
     if (currentSection === 4 && confirmation) {
       setFormData(data);
-    } else {
+    }
+    if (!confirmation && currentSection === 4) {
       alert("first agree to terms and conditions");
     }
     console.log(data, "kkk");
@@ -77,6 +78,11 @@ const RegisterForm = () => {
       setValue("permanentAddress", "");
     }
   }, [permanentAddress]);
+  useEffect(() => {
+    methods.setValue("eduDesignation", educationOptions[0].value);
+    methods.setValue("analytics", analyticsOptions[0].value);
+    // methods.setValue("gender" , )
+  }, []);
   return (
     <FormProvider {...methods}>
       <Box
@@ -145,7 +151,7 @@ const RegisterForm = () => {
               <ControlledRadioButtonsGroup
                 label="Gender"
                 name="gender"
-                // defaultValue="option1"
+                defaultValue=""
                 data={genderOptions}
               />
               <ForwardedTextInput
@@ -330,7 +336,7 @@ const RegisterForm = () => {
                 <ControlledRadioButtonsGroup
                   label="Are u a"
                   name="eduDesignation"
-                  // defaultValue="option1"
+                  defaultValue={educationOptions[0].value}
                   data={educationOptions}
                 />
                 <ForwardedTextInput
@@ -401,8 +407,8 @@ const RegisterForm = () => {
                     {...register("coursedetail", {
                       required: "coursedetail is Required",
                     })}
-                    error={errors?.coursedetail ? true : false}
-                    helperText={errors?.coursedetail?.message}
+                    // error={errors?.coursedetail ? true : false}
+                    // helperText={errors?.coursedetail?.message}
                     value={watch("coursedetail") || ""}
                     label="Course detail"
                   >
@@ -421,30 +427,34 @@ const RegisterForm = () => {
                 {watch("coursedetail") === "otherCourse" && (
                   <ForwardedTextInput
                     type="text"
-                    // error={errors?.company ? true : false}
-                    helperText={errors?.company?.message}
+                    error={errors?.otherCourse ? true : false}
+                    helperText={errors?.otherCourse?.message}
                     placeholder="add a course"
                     isRequired
-                    {...register("otherCourse")}
+                    {...register("otherCourse", {
+                      required: "coursedetail is Required",
+                    })}
                   />
                 )}
                 <ControlledRadioButtonsGroup
                   label="How you came to know about us?"
                   name="analytics"
-                  // defaultValue="option1"
+                  defaultValue={analyticsOptions[0].value}
                   data={analyticsOptions}
                 />
-                {/* <ForwardedTextInput
-                  label="How you came to know about us?"
-                  type="text"
-                  error={errors?.analytics ? true : false}
-                  helperText={errors?.analytics?.message}
-                  placeholder="company"
-                  isRequired
-                  {...register("analytics", {
-                    required: "analytics is Required",
-                  })}
-                /> */}
+                {methods.watch("analytics") === "friend" && (
+                  <ForwardedTextInput
+                    label="Friend Name"
+                    type="text"
+                    error={errors?.friendName ? true : false}
+                    helperText={errors?.friendName?.message}
+                    placeholder="your friend name"
+                    isRequired
+                    {...register("friendName", {
+                      required: "friendName is Required",
+                    })}
+                  />
+                )}
               </Box>
               <FormControlLabel
                 defaultValue={false}

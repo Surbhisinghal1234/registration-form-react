@@ -243,6 +243,9 @@ const RegisterForm = () => {
                   backgroundColor: "blue",
                   color: "white",
                   padding: "10px",
+                  "&:hover": {
+                    color: "blue",
+                  },
                 }}
                 onClick={handleData}
                 type="submit"
@@ -304,6 +307,9 @@ const RegisterForm = () => {
                   backgroundColor: "blue",
                   color: "white",
                   padding: "10px",
+                  "&:hover": {
+                    color: "blue",
+                  },
                 }}
                 onClick={handleData}
                 type="submit"
@@ -376,6 +382,9 @@ const RegisterForm = () => {
                     backgroundColor: "blue",
                     color: "white",
                     padding: "10px",
+                    "&:hover": {
+                      color: "blue",
+                    },
                   }}
                   onClick={handleData}
                   type="submit"
@@ -548,6 +557,9 @@ const RegisterForm = () => {
                   color: "white",
                   padding: "10px",
                   width: "100%",
+                  "&:hover": {
+                    color: "blue",
+                  },
                 }}
                 onClick={handleData}
                 type="submit"
@@ -560,6 +572,9 @@ const RegisterForm = () => {
                   color: "white",
                   padding: "10px",
                   width: "100%",
+                  "&:hover": {
+                    color: "blue",
+                  },
                 }}
                 onClick={getData}
                 type="submit"

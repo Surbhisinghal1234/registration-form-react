@@ -44,19 +44,50 @@ const RegisterForm = () => {
     e.preventDefault();
     setCurrentSection(currentSection - 1);
   };
+  const getData = () => {
+    fetch(`http://localhost:8080/studentsData`, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+      });
+  };
+
   const handleData = handleSubmit((data) => {
     if (Object.keys(errors).length === 0 && currentSection < 4) {
       // If there are no errors, proceed to the next section
       setCurrentSection(currentSection + 1);
     }
-    if (currentSection === 4 && confirmation) {
-      setFormData(data);
-    }
+
     if (!confirmation && currentSection === 4) {
       alert("first agree to terms and conditions");
     }
-    console.log(data, "kkk");
-    setFormData(data);
+    if (currentSection === 4 && confirmation) {
+      setFormData(data);
+      fetch(`http://localhost:8080/submit`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.error("Error:", err));
+    }
   });
   console.log(formdata, "58");
   const values = getValues();
@@ -83,6 +114,9 @@ const RegisterForm = () => {
     methods.setValue("analytics", analyticsOptions[0].value);
     // methods.setValue("gender" , )
   }, []);
+  useEffect(() => {
+    confirmation && setOpen(false);
+  }, [open]);
   return (
     <FormProvider {...methods}>
       <Box
@@ -106,11 +140,11 @@ const RegisterForm = () => {
             >
               <HeadingBox heading={"Personal Details"} />
               <ForwardedTextInput
-                label="Username"
+                label="Name"
                 type="text"
                 error={errors?.name ? true : false}
                 helperText={errors?.name?.message}
-                placeholder="username"
+                placeholder="name"
                 isRequired
                 {...register("name", {
                   required: "Name is Required",
@@ -165,7 +199,39 @@ const RegisterForm = () => {
                   required: "dob is Required",
                 })}
               />
-
+              <label htmlFor="">AadharCard</label>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "baseline",
+                  gap: "10px",
+                }}
+              >
+                <ForwardedTextInput
+                  // label="Aadhaar Card"
+                  type="file"
+                  // error={errors?.dob ? true : false}
+                  helperText={"Aadhar Card Front"}
+                  placeholder="Aadhar Card"
+                  isRequired
+                  {...register("aadharCard", {
+                    required: "aadharCard is Required",
+                  })}
+                />
+                <ForwardedTextInput
+                  // label="Aadhaar Card/"
+                  type="file"
+                  // error={errors?.dob ? true : false}
+                  // helperText={errors?.dob?.message}
+                  placeholder="Aadhar Card"
+                  helperText={"Aadhar Card Back"}
+                  isRequired
+                  {...register("aadharCard", {
+                    required: "aadharCard is Required",
+                  })}
+                />
+              </Box>
               <Button
                 sx={{ border: "1px solid black" }}
                 onClick={handleNextButton}
@@ -177,6 +243,9 @@ const RegisterForm = () => {
                   backgroundColor: "blue",
                   color: "white",
                   padding: "10px",
+                  "&:hover": {
+                    color: "blue",
+                  },
                 }}
                 onClick={handleData}
                 type="submit"
@@ -238,6 +307,9 @@ const RegisterForm = () => {
                   backgroundColor: "blue",
                   color: "white",
                   padding: "10px",
+                  "&:hover": {
+                    color: "blue",
+                  },
                 }}
                 onClick={handleData}
                 type="submit"
@@ -310,6 +382,9 @@ const RegisterForm = () => {
                     backgroundColor: "blue",
                     color: "white",
                     padding: "10px",
+                    "&:hover": {
+                      color: "blue",
+                    },
                   }}
                   onClick={handleData}
                   type="submit"
@@ -482,11 +557,29 @@ const RegisterForm = () => {
                   color: "white",
                   padding: "10px",
                   width: "100%",
+                  "&:hover": {
+                    color: "blue",
+                  },
                 }}
                 onClick={handleData}
                 type="submit"
               >
                 Submit
+              </Button>
+              <Button
+                sx={{
+                  backgroundColor: "blue",
+                  color: "white",
+                  padding: "10px",
+                  width: "100%",
+                  "&:hover": {
+                    color: "blue",
+                  },
+                }}
+                onClick={getData}
+                type="submit"
+              >
+                getData
               </Button>
             </>
           )}

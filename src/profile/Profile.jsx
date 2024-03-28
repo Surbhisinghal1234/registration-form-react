@@ -1,32 +1,58 @@
 import React, { useState } from "react";
 import { User } from "./Constant";
 import "./custom.css";
+
 function Profile() {
-  const [data, setData] = useState(Object.keys(User));
-
-  const value = data.slice(4, 12);
-  value.splice(4, 1);
-  const DataValue = Object.values(User);
-
-  const DataValue2 = DataValue.slice(4, 12);
-  DataValue2.splice(4, 1);
+  const keyData = Object.keys(User);
+  const valueData = Object.values(User);
+  const [editable, setEditable] = useState(false);
+  const [personalDetailValues, setPersonalDetailValues] = useState(
+    valueData.slice(0, 4)
+  );
+  const [additionalDetailValues, setAdditionalDetailValues] = useState(
+    valueData.slice(4, 13)
+  );
 
   function changeFormat(value) {
     if (typeof value === "string") {
       const name2 = value?.split("");
       const firstLetter = name2[0]?.toUpperCase();
       name2?.splice(0, 1, firstLetter);
-      const formatedText = name2?.join("");
-      return formatedText;
+      const formattedText = name2?.join("");
+      return formattedText;
     } else {
       return value;
     }
   }
+
+  const handleChange = (e, index, type) => {
+    const newValue = e.target.value;
+    if (type === "personal") {
+      setPersonalDetailValues((prevVal) => {
+        return prevVal.map((item, editIndex) => {
+          editIndex === index ? { ...item, item: newValue } : item;
+        });
+      });
+    } else if (type === "additional") {
+      setAdditionalDetailValues((prevVal) => {
+        return prevVal.map((item, editIndex) => {
+          editIndex === index ? { ...item, item: newValue } : item;
+        });
+      });
+    }
+  };
+
+  const handleEdit = () => {
+    setEditable(!editable);
+  };
+
+  const personalDetailKeys = keyData.slice(0, 4);
+  const additionalDetailKeys = keyData.slice(4, 13);
+
   return (
     <>
       <div className="bg-gray-200">
-        <div className="w-[85%] mx-auto py-4 rounded">
-         
+        <div className="lg:w-[85%] sm:w-[85%] md:w-auto mx-auto py-4 rounded">
           <div className="bg-[#bf6d4fcc] flex justify-center ">
             <div className="py-3 px-[3rem] flex flex-col items-center">
               <img
@@ -43,43 +69,75 @@ function Profile() {
           </div>
 
           <div className="bg-gray-100 pb-8">
-            <div className=" grid grid-cols-2 mx-auto justify-between font-bold text-3xl py-5 pl-2 ">
+            {/* <div className=" grid grid-cols-2    mx-auto justify-between font-bold text-3xl py-5 pl-2 ">
               <h1>Personal Details</h1>
               <h1>Additional Details</h1>
+            </div> */}
+            <div className=" flex flex-col md:flex-row gap-2   items-center md:items-stretch md:justify-between md:px-[3rem] mx-auto pl-2">
+              <div className="flex flex-col">
+                <h1 className="font-bold text-3xl py-5  ">Personal Details</h1>
+                <div className="flex gap-2 ">
+                  <div className=" flex flex-col gap-2  font-semibold  ">
+                    {personalDetailKeys.map((userData, index) => (
+                      <div className="py-1" key={index}>
+                        {changeFormat(userData)}:
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-2 ">
+                    {personalDetailValues.map((userData, index) => (
+                      <div className="personal-detail" key={index}>
+                        <input
+                          className="pl-2 py-1"
+                          type="text"
+                          value={changeFormat(userData)}
+                          readOnly={!editable}
+                          onChange={(e) => handleChange(e, index, "personal")}
+                          // onDoubleClick={() => {
+                          //   setEditable(true);
+                          // }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col md:mt-0 mt-[1rem]">
+                <h1 className="font-bold text-3xl py-5 ">Additional Details</h1>
+                <div className="flex gap-2 ">
+                  <div className=" flex flex-col gap-2  font-semibold  ">
+                    {additionalDetailKeys.map((userData, index) => (
+                      <div className="py-1" key={index}>
+                        {changeFormat(userData)}:
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-2 ">
+                    {additionalDetailValues.map((userData, index) => (
+                      <div className="personal-detail" key={index}>
+                        <input
+                          className="pl-2 py-1"
+                          type="text"
+                          value={changeFormat(userData)}
+                          readOnly={!editable}
+                          onChange={(e) => handleChange(e, index, "additional")}
+                          // onDoubleClick={() => {
+                          //   setEditable(true);
+                          // }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="grid grid-cols-2 gap-2 pl-2">
-              <div className="flex gap-2 ">
-                <div className=" flex flex-col gap-2  font-semibold  ">
-                  {data?.slice(0, 4)?.map((userData, index) => {
-                    return <div key={index}>{changeFormat(userData)}:</div>;
-                  })}
-                </div>
-                <div className="flex flex-col gap-2 ">
-                  {DataValue?.slice(0, 4)?.map((userData, index) => {
-                    return <div key={index}>{changeFormat(userData)}</div>;
-                  })}
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <div className="flex flex-col gap-2 font-semibold ">
-                  {value?.map((user, index) => {
-                    return (
-                      <>
-                        <div key={index}>{changeFormat(user)}:</div>
-                      </>
-                    );
-                  })}
-                </div>
-                <div className="flex flex-col gap-2 ">
-                  {DataValue2?.map((user, index) => {
-                    return (
-                      <>
-                        <div key={index}>{changeFormat(user)}</div>
-                      </>
-                    );
-                  })}
-                </div>
-              </div>
+            <div className="flex justify-center mt-[1rem] ">
+              <button
+                onClick={handleEdit}
+                className=" text-white rounded-2xl py-1 px-5 bg-gradient-to-r from-[#bf6d4fcc] to-red-400"
+              >
+                {editable} Edit
+              </button>
             </div>
           </div>
         </div>

@@ -10,3 +10,7 @@
   background-clip: text;
   color: transparent;
 }
+.personal-detail ::placeholder {
+  color: black;
+}
+

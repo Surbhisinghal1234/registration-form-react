@@ -30,18 +30,21 @@ function Profile() {
     if (type === "personal") {
       setPersonalDetailValues((prevVal) => {
         return prevVal.map((item, editIndex) => {
-          editIndex === index ? { ...item, item: newValue } : item;
+          return editIndex === index ? newValue : item;
         });
       });
+      console.log(newValue, "surbhi");
     } else if (type === "additional") {
       setAdditionalDetailValues((prevVal) => {
         return prevVal.map((item, editIndex) => {
-          editIndex === index ? { ...item, item: newValue } : item;
+          return editIndex === index ? newValue : item;
         });
       });
+      // console.log(item);
     }
   };
-
+  console.log(personalDetailValues);
+  
   const handleEdit = () => {
     setEditable(!editable);
   };

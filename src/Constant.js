@@ -30,10 +30,10 @@ export const analyticsOptions = [
   { value: "instagram", name: "Instagram" },
   { value: "friend", name: "Friend" },
 ];
-// export const objectValue = {
-//   name: "garvit",
-//   dob: "22-10-2004",
-//   course: "web-development",
-//   buriAaadt: "subh sona raat ko jagna"
+export const objectValue = {
+  name: "garvit",
+  dob: "22-10-2004",
+  course: "web-development",
+  buriAaadt: "subh sona raat ko jagna"
 
-// };
+};

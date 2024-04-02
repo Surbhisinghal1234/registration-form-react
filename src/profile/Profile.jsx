@@ -12,14 +12,19 @@ function Profile() {
   const [additionalDetailValues, setAdditionalDetailValues] = useState(
     valueData.slice(4, 13)
   );
+  const [instagramLink, setInstagramLink] = useState("");
+  const [githubLink, setGithubLink] = useState("");
+  const [linkedinLink, setLinkedinLink] = useState("");
+  const [resume, setResume] = useState("");
+
+  
+  console.log(additionalDetailValues, User, "15");
 
   function changeFormat(value) {
     if (typeof value === "string") {
-      const name2 = value?.split("");
-      const firstLetter = name2[0]?.toUpperCase();
-      name2?.splice(0, 1, firstLetter);
-      const formattedText = name2?.join("");
-      return formattedText;
+      const formattedText = value.replace(/([a-z])([A-Z])/g, "$1 $2");
+      return formattedText.charAt(0).toUpperCase() + formattedText.slice(1);
+      // return formattedText
     } else {
       return value;
     }
@@ -27,13 +32,22 @@ function Profile() {
 
   const handleChange = (e, index, type) => {
     const newValue = e.target.value;
+
     if (type === "personal") {
       setPersonalDetailValues((prevVal) => {
         return prevVal.map((item, editIndex) => {
           return editIndex === index ? newValue : item;
         });
       });
-      console.log(newValue, "surbhi");
+      // setAdditionalDetailValues((preVal) => {
+      //   console.log(preVal, "p");
+      //   return preVal.map((item, editIndex) => {
+      //     console.log(index, editIndex, "39");
+      //     editIndex === index ? { ...item, item: e.target.value } : item;
+      //   });
+      // });
+
+      // console.log(newValue, "surbhi");
     } else if (type === "additional") {
       setAdditionalDetailValues((prevVal) => {
         return prevVal.map((item, editIndex) => {
@@ -44,7 +58,7 @@ function Profile() {
     }
   };
   console.log(personalDetailValues);
-  
+  console.log(editable);
   const handleEdit = () => {
     setEditable(!editable);
   };
@@ -96,7 +110,10 @@ function Profile() {
                           value={changeFormat(userData)}
                           readOnly={!editable}
                           onChange={(e) => handleChange(e, index, "personal")}
-                          // onDoubleClick={() => {
+                          // onBlur={() => {
+                          //   setEditable(false);
+                          // }}
+                          // onClick={() => {
                           //   setEditable(true);
                           // }}
                         />
@@ -133,6 +150,51 @@ function Profile() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className=" mt-5 px-[3rem]">
+              <h2 className="font-bold text-2xl my-5">Social Media Links</h2>
+              <div className="flex justify-between">
+                <div className="flex gap-5">
+                  <label htmlFor="" className="font-medium">
+                    Linkdian
+                  </label>
+                  <input
+                    className=""
+                    type="text"
+                    value={linkedinLink}
+                    readOnly={!editable}
+                    onChange={(e) => setLinkedinLink(e.target.value)}
+                  />
+                </div>
+                <div className="flex gap-5">
+                  <label htmlFor="" className="font-medium">
+                    Github
+                  </label>
+                  <input
+                    className=""
+                    type="text"
+                    value={githubLink}
+                    readOnly={!editable}
+                    onChange={(e) => setGithubLink(e.target.value)}
+                  />
+                </div>
+                <div className="flex gap-5">
+                  <label htmlFor="" className="font-medium">
+                    Instagram
+                  </label>
+                  <input
+                    className=""
+                    type="text"
+                    value={instagramLink}
+                    readOnly={!editable}
+                    onChange={(e) => setInstagramLink(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="mt-[3rem] mb-5 px-[3rem]">
+              <h2 className="font-bold text-2xl my-5">Upload Resume</h2>
+              <input type="file" disabled={!editable} />
             </div>
             <div className="flex justify-center mt-[1rem] ">
               <button

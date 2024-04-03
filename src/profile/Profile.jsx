@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { User } from "./Constant";
 import "./custom.css";
 
@@ -15,11 +15,17 @@ function Profile() {
   const [instagramLink, setInstagramLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [linkedinLink, setLinkedinLink] = useState("");
-  const [resume, setResume] = useState("");
+  const [resume, setResume] = useState();
+  const [image, setImage] = useState("");
 
-  
+  function handleChangeImage(e) {
+    if (e.target.files.length !== 0) {
+      setResume(e?.target?.files[0]);
+    }
+  }
+
   console.log(additionalDetailValues, User, "15");
-
+  console.log(resume, image, "34");
   function changeFormat(value) {
     if (typeof value === "string") {
       const formattedText = value.replace(/([a-z])([A-Z])/g, "$1 $2");
@@ -58,6 +64,7 @@ function Profile() {
     }
   };
   console.log(personalDetailValues);
+  console.log(image, "61");
   console.log(editable);
   const handleEdit = () => {
     setEditable(!editable);
@@ -65,7 +72,12 @@ function Profile() {
 
   const personalDetailKeys = keyData.slice(0, 4);
   const additionalDetailKeys = keyData.slice(4, 13);
-
+  useEffect(() => {
+    if (resume) {
+      console.log("first");
+      setImage(URL?.createObjectURL(resume));
+    }
+  }, [resume]);
   return (
     <>
       <div className="bg-gray-200">
@@ -194,9 +206,21 @@ function Profile() {
             </div>
             <div className="mt-[3rem] mb-5 px-[3rem]">
               <h2 className="font-bold text-2xl my-5">Upload Resume</h2>
-              <input type="file" disabled={!editable} />
+
+              <input
+                type="file"
+                onChange={handleChangeImage}
+                disabled={!editable}
+              />
+              {image && (
+                <img
+                  // type="image"
+                  className="w-[10rem] h-[10rem]"
+                  src={image}
+                />
+              )}
             </div>
-            <div className="flex justify-center mt-[1rem] ">
+            <div className="flex justify-center mt-[1rem]">
               <button
                 onClick={handleEdit}
                 className=" text-white rounded-2xl py-1 px-5 bg-gradient-to-r from-[#bf6d4fcc] to-red-400"
@@ -210,5 +234,42 @@ function Profile() {
     </>
   );
 }
-
+{
+  /* <div>
+  <form
+    action=""
+    onClick={() => document.querySelector(".input-field").click()}
+  >
+    <input
+      type="file"
+      className="input-field"
+      hidden
+      onChange={({ target: { files } }) => {
+        files[0] && setFileName(files[0].name);
+        if (files) {
+          setImage(URL.createObjectURL(files[0]));
+        }
+      }}
+    />
+    {image ? (
+      <img src={image} width={160} height={160} alt={fileName} />
+    ) : (
+      <>
+        <p>Browse Files to upload</p>
+      </>
+    )}
+  </form>
+  <section className="uploaded-row">
+    <span
+      onClick={() => {
+        setFileName();
+        setImage(null);
+      }}
+    >
+      {fileName}
+      &times;
+    </span>
+  </section>
+</div>; */
+}
 export default Profile;

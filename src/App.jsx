@@ -2,14 +2,22 @@ import { useState } from "react";
 import RegisterForm from "./RegisterForm";
 import { TextSnippet } from "@mui/icons-material";
 import Profile from "./profile/Profile";
+// import { Router } from "react-router-dom";
 // import Test from "./profile/Test";
+import Router from "./Router.jsx";
+
+
 
 function App() {
   return (
     <>
       {/* <RegisterForm /> */}
-      <Profile />
+      {/* <Profile /> */}
       {/* <Test /> */}
+      <Router/>
+
+
+
     </>
   );
 }

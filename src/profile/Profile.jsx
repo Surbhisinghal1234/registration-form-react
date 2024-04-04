@@ -7,10 +7,10 @@ function Profile() {
   const valueData = Object.values(User);
   const [editable, setEditable] = useState(false);
   const [personalDetailValues, setPersonalDetailValues] = useState(
-    valueData.slice(0, 4)
+    valueData.slice(0, 6)
   );
   const [additionalDetailValues, setAdditionalDetailValues] = useState(
-    valueData.slice(4, 13)
+    valueData.slice(6, 13)
   );
   const [instagramLink, setInstagramLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
@@ -23,7 +23,6 @@ function Profile() {
       setResume(e?.target?.files[0]);
     }
   }
-
   console.log(additionalDetailValues, User, "15");
   console.log(resume, image, "34");
   function changeFormat(value) {
@@ -35,10 +34,8 @@ function Profile() {
       return value;
     }
   }
-
   const handleChange = (e, index, type) => {
     const newValue = e.target.value;
-
     if (type === "personal") {
       setPersonalDetailValues((prevVal) => {
         return prevVal.map((item, editIndex) => {
@@ -52,7 +49,6 @@ function Profile() {
       //     editIndex === index ? { ...item, item: e.target.value } : item;
       //   });
       // });
-
       // console.log(newValue, "surbhi");
     } else if (type === "additional") {
       setAdditionalDetailValues((prevVal) => {
@@ -70,8 +66,8 @@ function Profile() {
     setEditable(!editable);
   };
 
-  const personalDetailKeys = keyData.slice(0, 4);
-  const additionalDetailKeys = keyData.slice(4, 13);
+  const personalDetailKeys = keyData.slice(0, 6);
+  const additionalDetailKeys = keyData.slice(6, 13);
   useEffect(() => {
     if (resume) {
       console.log("first");
@@ -168,7 +164,7 @@ function Profile() {
               <div className="flex justify-between">
                 <div className="flex gap-5">
                   <label htmlFor="" className="font-medium">
-                    Linkdian
+                    Linkedian
                   </label>
                   <input
                     className=""
@@ -234,42 +230,5 @@ function Profile() {
     </>
   );
 }
-{
-  /* <div>
-  <form
-    action=""
-    onClick={() => document.querySelector(".input-field").click()}
-  >
-    <input
-      type="file"
-      className="input-field"
-      hidden
-      onChange={({ target: { files } }) => {
-        files[0] && setFileName(files[0].name);
-        if (files) {
-          setImage(URL.createObjectURL(files[0]));
-        }
-      }}
-    />
-    {image ? (
-      <img src={image} width={160} height={160} alt={fileName} />
-    ) : (
-      <>
-        <p>Browse Files to upload</p>
-      </>
-    )}
-  </form>
-  <section className="uploaded-row">
-    <span
-      onClick={() => {
-        setFileName();
-        setImage(null);
-      }}
-    >
-      {fileName}
-      &times;
-    </span>
-  </section>
-</div>; */
-}
+
 export default Profile;
